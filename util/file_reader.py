@@ -1,5 +1,4 @@
-from graphs.graph import Graph
-
+from graphs.graph import Graph\
 
 def read_graph_from_file(filename):
     """
@@ -15,15 +14,28 @@ def read_graph_from_file(filename):
     """
 
     # TODO: Use 'open' to open the file
-
     # TODO: Use the first line (G or D) to determine whether graph is directed 
     # and create a graph object
-
     # TODO: Use the second line to add the vertices to the graph
-
     # TODO: Use the 3rd+ line to add the edges to the graph
+    
+    with open(filename) as f:
+        first_line = next(f).strip(' \n')
 
-    pass
+        if first_line == 'G':
+            g = Graph(is_directed=False)
+        elif first_line == 'D':
+            g = Graph(is_directed=True)
+        else:
+            raise ValueError("Invalid file format.")
+
+        for each in next(f).strip(' \n').split(','):
+            g.add_vertex(each)
+        
+        for line in f:
+            g.add_edge(line[1], line[3])
+
+    return g
 
 if __name__ == '__main__':
 
