@@ -22,7 +22,7 @@ class Vertex(object):
         Parameters:
         vertex_obj (Vertex): An instance of Vertex to be stored as a neighbor.
         """
-        pass
+        self.__neighbors_dict[vertex_obj.get_id()] = vertex_obj
 
     def __str__(self):
         """Output the list of neighbors of this vertex."""
@@ -66,8 +66,8 @@ class Graph:
         Returns:
         Vertex: The new vertex object.
         """
-        pass
-        
+        self.__vertex_dict[vertex_id] = Vertex(vertex_id)
+        return self.__vertex_dict.get(vertex_id)
 
     def get_vertex(self, vertex_id):
         """Return the vertex if it exists."""
@@ -85,7 +85,16 @@ class Graph:
         vertex_id1 (string): The unique identifier of the first vertex.
         vertex_id2 (string): The unique identifier of the second vertex.
         """
-        pass
+        if self.get_vertex(vertex_id1) is None:
+            self.add_vertex(vertex_id1)
+
+        if self.get_vertex(vertex_id2) is None:
+            self.add_vertex(vertex_id2)
+        
+        self.__vertex_dict[vertex_id1].add_neighbor(self.__vertex_dict[vertex_id2])
+
+        if not self.__is_directed:
+            self.__vertex_dict[vertex_id2].add_neighbor(self.__vertex_dict[vertex_id1])
         
     def get_vertices(self):
         """
