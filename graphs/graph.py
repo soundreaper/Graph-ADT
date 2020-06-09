@@ -204,4 +204,27 @@ class Graph:
         Returns:
         list<string>: All vertex ids that are `target_distance` away from the start vertex
         """
-        pass
+        visited = set()
+        target_vertices = []
+
+        queue = deque()
+        queue.append((start_id, 0))
+        visited.add(start_id)
+
+        while queue:
+            x = queue.pop()
+
+            current_vertex_id = x[0]
+            vertex_distance = x[1]
+
+            if vertex_distance == target_distance:
+                target_vertices.append(current_vertex_id)
+
+            neighbors = self.get_vertex(current_vertex_id).get_neighbors()
+
+            for neighbor in neighbors:
+                if neighbor.get_id() not in visited:
+                    queue.append((neighbor.get_id(), vertex_distance + 1))
+                    visited.add(neighbor.get_id())
+            
+        return target_vertices
