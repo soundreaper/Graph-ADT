@@ -228,3 +228,59 @@ class Graph:
                     visited.add(neighbor.get_id())
             
         return target_vertices
+    
+    def is_bipartite(self):
+        """
+        Return True if the graph is bipartite, and False otherwise.
+        """
+        pass
+
+    def get_connected_components(self):
+        """
+        Return a list of all connected components, with each connected component
+        represented as a list of vertex ids.
+        """
+        pass
+    
+    def find_path_dfs_iter(self, start_id, target_id):
+        """
+        Use DFS with a stack to find a path from start_id to target_id.
+        """
+        pass
+
+    def dfs_traversal(self, start_id):
+        """Visit each vertex, starting with start_id, in DFS order."""
+
+        visited = set() # set of vertices we've visited so far
+
+        def dfs_traversal_recursive(start_vertex):
+            print(f'Visiting vertex {start_vertex.get_id()}')
+
+            # recurse for each vertex in neighbors
+            for neighbor in start_vertex.get_neighbors():
+                if neighbor.get_id() not in visited:
+                    visited.add(neighbor.get_id())
+                    dfs_traversal_recursive(neighbor)
+            return
+
+        visited.add(start_id)
+        start_vertex = self.get_vertex(start_id)
+        dfs_traversal_recursive(start_vertex)
+    
+    def contains_cycle(self):
+        """
+        Return True if the directed graph contains a cycle, False otherwise.
+        """
+        pass
+    
+    def topological_sort(self):
+        """
+        Return a valid ordering of vertices in a directed acyclic graph.
+        If the graph contains a cycle, throw a ValueError.
+        """
+        # TODO: Create a stack to hold the vertex ordering.
+        # TODO: For each unvisited vertex, execute a DFS from that vertex.
+        # TODO: On the way back up the recursion tree (that is, after visiting a 
+        # vertex's neighbors), add the vertex to the stack.
+        # TODO: Reverse the contents of the stack and return it as a valid ordering.
+        pass
