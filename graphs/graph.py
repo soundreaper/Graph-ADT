@@ -1,4 +1,5 @@
 from collections import deque
+from random import choice
 
 class Vertex(object):
     """
@@ -233,20 +234,106 @@ class Graph:
         """
         Return True if the graph is bipartite, and False otherwise.
         """
-        pass
+        queue = deque()
+        visited = {}
+        current_color = 0
+
+        current_vertex_id = choice(list(self.__vertex_dict.keys()))
+
+        queue.append(current_vertex_id)
+        visited[current_vertex_id] = current_color
+
+        while queue:
+            current_color ^= 1
+
+            current_vertex_id = queue.popleft()
+
+            neighbors = self.get_vertex(current_vertex_id).get_neighbors()
+
+            for neighbor in neighbors:
+                if neighbor.get_id() not in visited.keys():
+                    visited[neighbor.get_id()] = current_color
+
+                    queue.append(neighbor.get_id())
+                else:
+                    if visited[current_vertex_id] == visited[neighbor.get_id()]:
+                        return False
+        return True
 
     def get_connected_components(self):
         """
         Return a list of all connected components, with each connected component
         represented as a list of vertex ids.
         """
-        pass
+        connected = []
+        visited = set()
+        queue = deque()
+        components = []
+
+        current_vertex_id = choice(list(self.__vertex_dict.keys()))
+        visited.add(current_vertex_id)
+        queue.append(current_vertex_id)
+
+        while queue:
+            current_vertex_id = queue.popleft()
+            components.append(current_vertex_id)
+
+            neighbors = self.get_vertex(current_vertex_id).get_neighbors()
+
+            for neighbor in neighbors:
+                if neighbor.get_id() not in visited:
+                    visited.add(neighbor.get_id())
+                    components.append(neighbor.get_id())
+            
+            connected.append(components)
+            components = []
+
+            if len(visited) == len(list(self.__vertex_dict.keys())):
+                break
+
+            unvisited = [vertex for vertex in list(self.__vertex_dict.keys()) if vertex not in visited]
+
+            current_vertex_id = choice(unvisited)
+
+            visited.add(current_vertex_id)
+            queue.append(current_vertex_id)
+
+        return connected
     
     def find_path_dfs_iter(self, start_id, target_id):
         """
         Use DFS with a stack to find a path from start_id to target_id.
         """
-        pass
+        if not self.contains_id(start_id) or not self.contains_id(target_id):
+            raise KeyError("One or both vertices are not in the graph!")
+
+        stack = deque()
+        stack.append(self.get_vertex(start_id))
+        
+        paths = {
+            start_id: [start_id]
+        }
+
+        while stack:
+            current_vertex_obj = stack.pop()
+            current_vertex_id = current_vertex_obj.get_id()
+
+            if current_vertex_id == target_id:
+                break
+
+            neighbors = current_vertex_obj.get_neighbors()
+
+            for neighbor in neighbors:
+                if neighbor.get_id() not in paths:
+                    stack.append(neighbor)
+                    current_path = paths[current_vertex_id]
+                    next_path = current_path + [neighbor.get_id()]
+                    paths[neighbor.get_id()] = next_path
+                    
+        if target_id not in paths:
+            return None
+
+        return paths[target_id]
 
     def dfs_traversal(self, start_id):
         """Visit each vertex, starting with start_id, in DFS order."""
@@ -271,7 +358,25 @@ class Graph:
         """
         Return True if the directed graph contains a cycle, False otherwise.
         """
-        pass
+        def dfs_cycle(vertex, visited, recursion_stack):
+            v_id = vertex.get_id()
+            visited.append(v_id)
+            neighbors = vertex.get_neighbors()
+            for n in neighbors:
+                n_id = n.get_id()
+                if n_id in visited:
+                    recursion_stack.append(True)
+                    return
+                else:
+                    recursion_stack.append(False)
+                    dfs_cycle(n, visited, recursion_stack)
+            return recursion_stack[-1]
+        
+        start_id = list(self.__vertex_dict.keys())[0]
+        start_obj = self.get_vertex(start_id)
+        visited, recursion_stack = [start_id], []
+        is_cycle = dfs_cycle(start_obj, visited, recursion_stack)
+        return is_cycle
     
     def topological_sort(self):
         """
