@@ -265,44 +265,40 @@ class Graph:
         Return a list of all connected components, with each connected component
         represented as a list of vertex ids.
         """
-        start_id = choice(list(self.__vertex_dict.keys()))
-
-        remaining_ids = list(self.__vertex_dict.keys())
-        remaining_ids.remove(start_id) 
-
+        connected = []
         visited = set()
-        visited.add(start_id)
-
         queue = deque()
-        queue.append(self.get_vertex(start_id))
-
         components = []
-        com = []
+
+        current_vertex_id = choice(list(self.__vertex_dict.keys()))
+        visited.add(current_vertex_id)
+        queue.append(current_vertex_id)
+
         while queue:
-            v_obj = queue.pop()
-            v_id = v_obj.get_id()
-            com.append(v_id)
+            current_vertex_id = queue.popleft()
+            components.append(current_vertex_id)
 
-            neighbors = v_obj.get_neighbors()
+            neighbors = self.get_vertex(current_vertex_id).get_neighbors()
 
-            for n in neighbors:
-                n_id = n.get_id()
-                if n_id not in visited:
-                    visited.add(n_id)
-                    queue.appendleft(n)
-                    remaining_ids.remove(n_id)
+            for neighbor in neighbors:
+                if neighbor.get_id() not in visited:
+                    visited.add(neighbor.get_id())
+                    components.append(neighbor.get_id())
+            
+            connected.append(components)
+            components = []
 
-            if len(queue) == 0:
-                components.append(com)
-                if len(remaining_ids) == 0:
-                    break
-                com = []
-                new_start = choice(remaining_ids)
-                visited.add(new_start)
-                queue.appendleft(self.get_vertex(new_start))
-                remaining_ids.remove(new_start)
+            if len(visited) == len(list(self.__vertex_dict.keys())):
+                break
 
-        return components
+            unvisited = [vertex for vertex in list(self.__vertex_dict.keys()) if vertex not in visited]
+
+            current_vertex_id = choice(unvisited)
+
+            visited.add(current_vertex_id)
+            queue.append(current_vertex_id)
+
+        return connected
     
     def find_path_dfs_iter(self, start_id, target_id):
         """
