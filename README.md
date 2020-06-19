@@ -16,11 +16,12 @@ One application would be to optimize routes for a GPS-based map application. Eac
 
 1. Compare and contrast Breadth-first Search and Depth-first Search by providing one similarity and one difference.
 
-
+BFS uses a Queue to go through the graph while DFS uses a Stack. Both can be used to find the shortest path but generally DFS is not the most ideal solution for this.
 
 2. Explain why a Depth-first Search traversal does not necessarily find the shortest path between two vertices. What is one such example of a graph where a DFS search would not find the shortest path?
 
-
+DFS is not a good method to find the shortest patch because DFS may traverse one adjacent vertex very deeply before ever going into immediate neighbors.
 
 3. Explain why we cannot perform a topological sort on a graph containing a cycle.
 
+It is impossible to run a topological sort on a directed graph with a cycle, since it is unclear where the sort itself should start.
