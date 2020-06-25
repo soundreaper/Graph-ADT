@@ -24,9 +24,3 @@ def read_graph_from_file(filename):
     # TODO: Use the 3rd+ line to add the edges to the graph
 
     pass
-
-if __name__ == '__main__':
-
-    graph = read_graph_from_file('test.txt')
-
-    print(graph)

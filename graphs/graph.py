@@ -12,8 +12,8 @@ class Vertex(object):
         Parameters:
         vertex_id (string): A unique identifier to identify this vertex.
         """
-        self.__id = vertex_id
-        self.__neighbors_dict = {} # id -> object
+        self.id = vertex_id
+        self.neighbors_dict = {} # id -> object
 
     def add_neighbor(self, vertex_obj):
         """
@@ -26,8 +26,8 @@ class Vertex(object):
 
     def __str__(self):
         """Output the list of neighbors of this vertex."""
-        neighbor_ids = list(self.__neighbors_dict.keys())
-        return f'{self.__id} adjacent to {neighbor_ids}'
+        neighbor_ids = list(self.neighbors_dict.keys())
+        return f'{self.id} adjacent to {neighbor_ids}'
 
     def __repr__(self):
         """Output the list of neighbors of this vertex."""
@@ -35,11 +35,11 @@ class Vertex(object):
 
     def get_neighbors(self):
         """Return the neighbors of this vertex."""
-        return list(self.__neighbors_dict.values())
+        return list(self.neighbors_dict.values())
 
     def get_id(self):
         """Return the id of this vertex."""
-        return self.__id
+        return self.id
 
 
 class Graph:
@@ -53,8 +53,8 @@ class Graph:
         Parameters:
         is_directed (boolean): Whether the graph is directed (edges go in only one direction).
         """
-        self.__vertex_dict = {} # id -> object
-        self.__is_directed = is_directed
+        self.vertex_dict = {} # id -> object
+        self.is_directed = is_directed
 
     def add_vertex(self, vertex_id):
         """
@@ -71,10 +71,10 @@ class Graph:
 
     def get_vertex(self, vertex_id):
         """Return the vertex if it exists."""
-        if vertex_id not in self.__vertex_dict:
+        if vertex_id not in self.vertex_dict:
             return None
 
-        vertex_obj = self.__vertex_dict[vertex_id]
+        vertex_obj = self.vertex_dict[vertex_id]
         return vertex_obj
 
     def add_edge(self, vertex_id1, vertex_id2):
@@ -94,10 +94,10 @@ class Graph:
         Returns:
         List<Vertex>: The vertex objects contained in the graph.
         """
-        return list(self.__vertex_dict.values())
+        return list(self.vertex_dict.values())
 
     def contains_id(self, vertex_id):
-        return vertex_id in self.__vertex_dict
+        return vertex_id in self.vertex_dict
 
     def __str__(self):
         """Return a string representation of the graph."""
