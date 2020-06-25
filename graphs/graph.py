@@ -123,7 +123,7 @@ class Graph:
         queue.append(self.get_vertex(start_id))
 
         while queue:
-            current_vertex_obj = queue.pop()
+            current_vertex_obj = queue.popleft()
             current_vertex_id = current_vertex_obj.get_id()
 
             # Process current node
