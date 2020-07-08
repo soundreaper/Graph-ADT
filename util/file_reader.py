@@ -18,7 +18,6 @@ def read_graph_from_file(filename):
     # and create a graph object
     # TODO: Use the second line to add the vertices to the graph
     # TODO: Use the 3rd+ line to add the edges to the graph
-<<<<<<< HEAD
     
     with open(filename) as f:
         first_line = next(f).strip(' \n')
@@ -43,7 +42,3 @@ if __name__ == '__main__':
     graph = read_graph_from_file('test.txt')
 
     print(graph)
-=======
-
-    pass
->>>>>>> 28b0c0fb235f7f0787ebe54d3b1cc50a8577598d
