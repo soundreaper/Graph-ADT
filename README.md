@@ -1,4 +1,4 @@
-# Homework 1 & 2: Graph ADT & Traversals
+# Homework 1, 2, 4: Graph ADT, Traversals, & Weighted Graphs
 
 Follow the instructions [here](https://make-school-courses.github.io/CS-2.2-Graphs-Recursion/#/Assignments/01-Graph-ADT) to complete this assignment.
 
