@@ -21,7 +21,7 @@ class WeightedVertex(Vertex):
         weight (number): The weight of this edge.
         """
         if vertex_obj.get_id() in self.neighbors_dict.keys():
-            return # it's already a neighbor
+            return
 
         self.neighbors_dict[vertex_obj.get_id()] = (vertex_obj, weight)
 
@@ -73,7 +73,7 @@ class WeightedGraph(Graph):
         Vertex: The new vertex object.
         """
         if vertex_id in self.vertex_dict.keys():
-            return False # it's already there
+            return False
         vertex_obj = WeightedVertex(vertex_id)
         self.vertex_dict[vertex_id] = vertex_obj
         return True
@@ -227,29 +227,3 @@ class WeightedGraph(Graph):
                 continue
         # TODO: Return None if target vertex not found.
         return None
-
-    def floyd_warshall(self):
-        """
-        Return the All-Pairs-Shortest-Paths dictionary, containing the shortest
-        paths from each vertex to each other vertex.
-        """
-        dist = {}
-        all_vertex_ids = self.__vertex_dict.keys()
-
-        for vertex1 in all_vertex_ids:
-            dist[vertex1] = {}
-            for vertex2 in all_vertex_ids:
-                dist[vertex1][vertex2] = WeightedGraph.INFINITY
-            dist[vertex1][vertex1] = 0
-
-        all_vertex_objs = self.get_vertices()
-        for vertex in all_vertex_objs:
-            neighbors_with_weights = vertex.get_neighbors_with_weights()
-            for neighbor, weight in neighbors_with_weights:
-                dist[vertex.get_id()][neighbor.get_id()] = weight
-
-        for i in all_vertex_ids:
-            for j in all_vertex_ids:
-                for k in all_vertex_ids:
-                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
-        return dist
